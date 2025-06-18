@@ -1,0 +1,35 @@
+name: Suma de Variables de Entorno
+
+on:
+  push:
+    branches:
+      - 'test/**'  # 5. Filtro de rama que empieza por test/
+
+env:  # 6. Variables de entorno del repositorio
+  NUM1: ${{ secrets.NUM1 }}
+  NUM2: ${{ secrets.NUM2 }}
+
+jobs:
+  sumar_numeros:
+    name: Sumar Números
+    runs-on: ubuntu-latest  # 3. Runner ubuntu-latest
+    steps:
+      - name: Realizar Suma
+        run: |
+          echo "Sumando $NUM1 y $NUM2"
+          RESULT=$((NUM1 + NUM2))
+          echo "Resultado: $RESULT"
+          echo "RESULTADO=$RESULT" >> $GITHUB_ENV  # Pasar resultado al siguiente job
+
+  evaluar_resultado:
+    name: Evaluar Resultado
+    runs-on: ubuntu-latest
+    needs: sumar_numeros  # Dependencia del job anterior
+    steps:
+      - name: Mostrar Mensaje
+        run: |
+          if [ "$RESULTADO" -gt 10 ]; then
+            echo "La suma es mayor que 10."
+          else
+            echo "La suma es menor o igual a 10."
+          fi
