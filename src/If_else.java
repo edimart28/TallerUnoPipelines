@@ -5,6 +5,8 @@ public class If_else {
 
     //Prueba
 
+    //Cambio de secretos a variables
+
 
     public static void main(String[] args) {
         int valorA;
