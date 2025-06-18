@@ -3,7 +3,7 @@ name: Suma de Variables de Entorno
 on:
   push:
     branches:
-      - 'test/**'  # 5. Filtro de rama que empieza por test/
+      - 'test'  # 5. Filtro de rama que empieza por test/
 
 env:  # 6. Variables de entorno del repositorio
   NUM1: ${{ vars.NUM1 }}
