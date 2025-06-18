@@ -6,8 +6,8 @@ on:
       - 'test/**'  # 5. Filtro de rama que empieza por test/
 
 env:  # 6. Variables de entorno del repositorio
-  NUM1: ${{ secrets.NUM1 }}
-  NUM2: ${{ secrets.NUM2 }}
+  NUM1: ${{ vars.NUM1 }}
+  NUM2: ${{ vars.NUM2 }}
 
 jobs:
   sumar_numeros:
