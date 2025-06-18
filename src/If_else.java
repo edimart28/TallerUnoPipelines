@@ -7,6 +7,8 @@ public class If_else {
 
     //Cambio de secretos a variables
 
+    //cambio quitando la /** 
+
 
     public static void main(String[] args) {
         int valorA;
