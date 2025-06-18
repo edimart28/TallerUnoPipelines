@@ -5,15 +5,14 @@ on:
     branches:
       - 'test'  # 5. Filtro de rama que empieza por test/
 
-
+env:  # 6. Variables de entorno del repositorio
+      NUM1: ${{ vars.NUM1 }}
+      NUM2: ${{ vars.NUM2 }}
 
 jobs:
   sumar_numeros:
     name: Sumar Números
     runs-on: ubuntu-latest  # 3. Runner ubuntu-latest
-    env:  # 6. Variables de entorno del repositorio
-      NUM1: ${{ vars.NUM1 }}
-      NUM2: ${{ vars.NUM2 }}
     steps:
       - name: Realizar Suma
         run: |
