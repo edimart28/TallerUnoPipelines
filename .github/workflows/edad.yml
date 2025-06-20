@@ -12,6 +12,7 @@ on:
       anio:
         description: 'Año de nacimiento'
         required: true
+        
 env:
    LIM_NINEZ = 13
    LIM_ADOLESCENCIA = 17
@@ -33,6 +34,52 @@ jobs:
           
           nacimiento="${{ github.event.inputs.anio }}-${{ github.event.inputs.mes }}-${{ github.event.inputs.dia }}"
           hoy=$(date +"%Y-%m-%d")
+
+          años=$(($(date -d "$hoy" +%Y) - $(date -d "$nacimiento" +%Y)))
+          meses=$(($(date -d "$hoy" +%m) - $(date -d "$nacimiento" +%m)))
+          dias=$(($(date -d "$hoy" +%d) - $(date -d "$nacimiento" +%d)))
+
+          if [ $dias -lt 0 ]; then
+            meses=$((meses - 1))
+            dias=$((dias + $(cal  $(date -d "$hoy -1 month" "+%m %Y") | awk 'NF {DAYS = $NF}; END {print DAYS}')))
+          fi
+
+          if [ $meses -lt 0 ]; then
+            años=$((años - 1))
+            meses=$((meses + 12))
+          fi
+
+          edad_texto="${años} años, ${meses} meses, ${dias} días"
+          echo "edad_texto=$edad_texto" >> $GITHUB_OUTPUT
+          echo "edad_anios=$años" >> $GITHUB_OUTPUT
+
+clasificar-etapa:
+    name: Clasificar Etapa de Vida
+    needs: calcular-edad
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clasificar según edad
+        run: |
+          edad=${{ needs.calcular-edad.outputs.edad_anios }}
+          texto="${{ needs.calcular-edad.outputs.edad_texto }}"
+          
+          echo "Edad calculada: $texto"
+          
+          if [ "$edad" -le "${{ env.LIM_NINEZ }}" ]; then
+            etapa="Niñez"
+          elif [ "$edad" -le "${{ env.LIM_ADOLESCENCIA }}" ]; then
+            etapa="Adolescencia"
+          elif [ "$edad" -le "${{ env.LIM_ADULTO_JOVEN }}" ]; then
+            etapa="Adulto Joven"
+          elif [ "$edad" -le "${{ env.LIM_ADULTO }}" ]; then
+            etapa="Adulto"
+          else
+            etapa="Adulto Mayor"
+          fi
+          
+          
+          
+
    
 
 
