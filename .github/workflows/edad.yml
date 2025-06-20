@@ -12,8 +12,7 @@ on:
       anio:
         description: 'Año de nacimiento'
         required: true
-
- env:
+env:
    LIM_NINEZ = 13
    LIM_ADOLESCENCIA = 17
    LIM_ADULTO_JOVEN = 35
