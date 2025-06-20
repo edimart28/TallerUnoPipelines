@@ -1,0 +1,41 @@
+name: calcular edad
+
+on:
+  workflow_dispatch:
+    inputs:
+      dia:
+        description: 'Día de nacimiento'
+        required: true
+      mes:
+        description: 'Mes de nacimiento'
+        required: true
+      anio:
+        description: 'Año de nacimiento'
+        required: true
+
+ env:
+   LIM_NINEZ = 13
+   LIM_ADOLESCENCIA = 17
+   LIM_ADULTO_JOVEN = 35
+   LIM_ADULTO = 64
+
+jobs:
+  calcular-edad:
+    name: Calcular Edad
+    runs-on: ubuntu-latest
+    outputs:
+      edad_texto: ${{ steps.calcular.outputs.edad_texto }}
+      edad_anios: ${{ steps.calcular.outputs.edad_anios }}
+    steps:
+      - name: Calcular diferencia de edad
+        id: calcular
+        run: |
+          echo "Calculando edad a partir de: ${{ github.event.inputs.dia }}-${{ github.event.inputs.mes }}-${{ github.event.inputs.anio }}"
+          
+          nacimiento="${{ github.event.inputs.anio }}-${{ github.event.inputs.mes }}-${{ github.event.inputs.dia }}"
+          hoy=$(date +"%Y-%m-%d")
+   
+
+
+
+
